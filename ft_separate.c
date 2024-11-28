@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
+/*   ft_separate.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmacedo- <hmacedo-@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/11 17:59:57 by hmacedo-          #+#    #+#             */
-/*   Updated: 2024/11/08 21:20:10 by hmacedo-         ###   ########.fr       */
+/*   Created: 2024/11/11 19:14:32 by hmacedo-          #+#    #+#             */
+/*   Updated: 2024/11/25 20:23:44 by hmacedo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,13 @@ static size_t	count_words(const char *s, char c)
 	}
 	while (*s)
 	{
-		if (*s != c && *(s - 1) == c)
+		if (*s == c)
+		{
+			s++;
+			if (!*s)
+				break ;
 			count++;
+		}
 		s++;
 	}
 	return (count);
@@ -38,6 +43,8 @@ static size_t	end_word(const char *s, char c)
 	size_t	i;
 
 	i = 0;
+	if (s[i] == c)
+		i++;
 	while (s[i] && s[i] != c)
 		i++;
 	return (i);
@@ -47,6 +54,8 @@ static const char	*make_line(char **line, const char *s, char c)
 {
 	size_t	end;
 
+	if (*s == c)
+		s++;
 	end = end_word(s, c);
 	*line = ft_substr(s, 0, end);
 	if (!line)
@@ -71,7 +80,7 @@ static void	make_matrix(char **matrix, const char *s, char c, size_t sz)
 	}
 	while (i < sz && *s)
 	{
-		if (*s != c && *(s - 1) == c)
+		if (*s == c && *(s + 1))
 		{
 			s = make_line(&matrix[i], s, c);
 			if (!s)
@@ -83,7 +92,7 @@ static void	make_matrix(char **matrix, const char *s, char c, size_t sz)
 	}
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_separate(char const *s, char c)
 {
 	size_t		i;
 	size_t		sz;
@@ -122,6 +131,7 @@ void	show(char **matrix, size_t n)
 
 int	main(void)
 {
-	show(ft_split(" Haniel Huam Macedo Ferreira", ' '), 5);
+	printf("%zu words\n", count_words("&&&Haniel&Huam&Macedo&Ferreira", '&'));
+	show(ft_separate("a&&&&&a", '&'), 5);
 	return (0);
 }*/
