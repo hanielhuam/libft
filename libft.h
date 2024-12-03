@@ -6,7 +6,7 @@
 /*   By: hmacedo- <hmacedo-@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 19:26:12 by hmacedo-          #+#    #+#             */
-/*   Updated: 2024/11/28 15:40:14 by hmacedo-         ###   ########.fr       */
+/*   Updated: 2024/12/02 20:59:54 by hmacedo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <stdlib.h>
 # include <unistd.h>
+# include <limits.h>
 
 typedef struct s_list
 {
@@ -51,7 +52,8 @@ char	*ft_strtrim(char const *s1, char const *set);
 char	**ft_split(char const *s, char c);
 char	**ft_separate(char const *s, char c);
 char	*ft_itoa(int n);
-char	*ft_itoa_base(int n, char *base);
+char	*ft_litoa_base(long int n, char *base);
+char	*ft_ulitoa_base(unsigned long int n, char *base);
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 void	ft_striteri(char *s, void (*f)(unsigned int, char *));
 void	ft_putchar_fd(char c, int fd);
