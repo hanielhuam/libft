@@ -1,21 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_uitoa.c                                         :+:      :+:    :+:   */
+/*   ft_ulitoa_base.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmacedo- <hmacedo-@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 17:56:16 by hmacedo-          #+#    #+#             */
-/*   Updated: 2024/12/02 18:04:40 by hmacedo-         ###   ########.fr       */
+/*   Updated: 2024/12/09 19:24:04 by hmacedo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "libft.h"
 
-static int	count_digits(unsigned int n)
+static int	count_digits(unsigned long int n, int base_lenght)
 {
-	unsigned int	i;
+	int	i;
 
 	i = 0;
 	if (!n)
@@ -23,43 +22,67 @@ static int	count_digits(unsigned int n)
 	if (n < 0)
 		i++;
 	while (n && ++i)
-		n /= 10;
+		n /= base_lenght;
 	return (i);
 }
 
-char	*ft_uitoa(unsigned int n)
+static int	verify_base(char *str)
 {
+	char	*deny;
+	int		i;
+	int		lenght;
+
+	i = 0;
+	while (str[i])
+		i++;
+	lenght = i;
+	i = 0;
+	while (str[i])
+	{
+		if (ft_strchr(&str[i + 1], str[i]))
+			return (0);
+		i++;
+	}
+	deny = "+-";
+	i = 0;
+	while (deny[i])
+	{
+		if (ft_strchr(str, deny[i]))
+			return (0);
+		i++;
+	}
+	return (lenght);
+}
+
+char	*ft_ulitoa_base(unsigned long int n, char *base)
+{
+	int		base_lenght;
 	char	*nbr;
 	int		size;
-	long	nb;
 
-	size = count_digits(n);
+	base_lenght = verify_base(base);
+	if (base_lenght <= 1)
+		return (NULL);
+	size = count_digits(n, base_lenght);
 	nbr = ft_calloc(size + 1, sizeof(char));
+	if (!nbr)
+		return (NULL);
 	if (!n)
+		nbr[0] = base[0];
+	while (n)
 	{
-		nbr[0] = '0';
-		return (nbr);
-	}
-	nb = (long)n;
-	if (nb < 0)
-	{
-		nb = -nb;
-		nbr[0] = '-';
-	}
-	while (nb)
-	{
-		nbr[--size] = nb % 10 + '0';
-		nb /= 10;
+		nbr[--size] = base[n % base_lenght];
+		n /= base_lenght;
 	}
 	return (nbr);
 }
 /*
 #include <stdio.h>
 
-int	main(void)
+int    main(int argc, char **argv)
 {
-	printf("%d\n", count_digits(0));
-	printf("%s\n", ft_uitoa(0));
+	if (argc != 3)
+		return (0);
+	printf("%s", ft_ulitoa_base(ULONG_MAX, argv[2]));
 	return (0);
-}
-*/
+}*/
